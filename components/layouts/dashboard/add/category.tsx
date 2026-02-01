@@ -10,19 +10,11 @@ import {
 } from "@/components/ui/select";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import AddCategory from "../add-category";
 
 interface AddProductCategoryProps {
   selectedCategory: string;
@@ -37,6 +29,8 @@ const AddProductCategory = ({
 }: AddProductCategoryProps) => {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryDescription, setNewCategoryDescription] = useState("");
+  const [newCategoryImage, setNewCategoryImage] = useState<File | null>(null);
+  
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleAddCategory = async () => {
@@ -62,6 +56,7 @@ const AddProductCategory = ({
       setIsDialogOpen(false);
       toast.success("Category added successfully");
     } catch (error) {
+      console.log("Error", error);
       toast.error("Failed to add category");
     }
   };
@@ -100,40 +95,15 @@ const AddProductCategory = ({
               Add category
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="bg-white">
-            <AlertDialogHeader>
-              <AlertDialogTitle>Add category</AlertDialogTitle>
-              <AlertDialogDescription>
-                <div className="flex flex-col gap-3">
-                  <div className="flex flex-col gap-1">
-                    <p className="text-xs font-bold">Category Name</p>
-                    <Input
-                      placeholder="Enter category name"
-                      value={newCategoryName}
-                      onChange={(e) => setNewCategoryName(e.target.value)}
-                      className="w-full text-sm font-medium shadow-none border-0 bg-gray-100 h-10 placeholder:text-gray-400 placeholder:italic"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1">
-                    <p className="text-xs font-bold">Category Description</p>
-                    <Textarea
-                      placeholder="Describe your category in details"
-                      value={newCategoryDescription}
-                      onChange={(e) => setNewCategoryDescription(e.target.value)}
-                      className="w-full text-sm font-medium shadow-none border-0 bg-gray-100 h-40 placeholder:text-gray-400 placeholder:italic"
-                    />
-                  </div>
-                </div>
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleAddCategory}>
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
+          <AddCategory
+            newCategoryName={newCategoryName}
+            setNewCategoryName={setNewCategoryName}
+            newCategoryDescription={newCategoryDescription}
+            setNewCategoryDescription={setNewCategoryDescription}
+            handleAddCategory={handleAddCategory}
+            newCategoryImage={newCategoryImage}
+            setNewCategoryImage={setNewCategoryImage}
+          />
         </AlertDialog>
       </div>
     </div>

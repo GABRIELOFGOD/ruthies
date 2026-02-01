@@ -10,6 +10,9 @@ const FeatureProductCard = ({ product }: { product: IProduct }) => {
         fill
         className="h-full w-full object-cover"
       />
+      <div className="absolute w-full h-full bg-linear-to-t from-black/70 to-transparent flex flex-col justify-end">
+        <p className="text-lg text-white p-4 font-semibold">{product.category}</p>
+      </div>
     </div>
   )
 }

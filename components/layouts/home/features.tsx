@@ -12,6 +12,7 @@ const Features = () => {
 
   const getData = async () => {
     const response = await getProductsData();
+    console.log("Data", response.data);
     setData(response.data as IProduct[] | null);
   }
 
@@ -22,7 +23,7 @@ const Features = () => {
   
   return (
     <div>
-      <div className="flex flex-col gap-10 mx-auto w-[90%] py-10">
+      <div className="flex flex-col gap-10 mx-auto w-[90%] overflow-x-hidden py-10">
         <div className="flex gap-5 justify-between w-full">
           <div className="flex flex-col gap-1">
             <h3 className="font-bold text-primary">CURATED BY RUTHIE</h3>
@@ -31,13 +32,15 @@ const Features = () => {
           <Link href="#" className="text-primary uppercase underline font-semibold self-end">View all</Link>
         </div>
 
-        <div className="flex gap-5 overflow-x-auto w-full">
+        <div className="w-full overflow-x-auto scrollbar-hide">
+        <div className="flex gap-5 overflow-x-auto scrollbar-hide w-fit">
           {data?.map((product, index) => (
             <FeatureProductCard
               key={index}
               product={product}
             />
           ))}
+        </div>
         </div>
       </div>
     </div>
