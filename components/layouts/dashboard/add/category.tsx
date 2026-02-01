@@ -8,13 +8,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { useState } from "react";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import AddCategory from "../add-category";
+import { useCategory } from "@/hooks/use-category";
 
 interface AddProductCategoryProps {
   selectedCategory: string;
@@ -30,8 +28,26 @@ const AddProductCategory = ({
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryDescription, setNewCategoryDescription] = useState("");
   const [newCategoryImage, setNewCategoryImage] = useState<File | null>(null);
-  
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { getCategories, createCategory } = useCategory();
+  const [availableCategories, setAvailableCategories] = useState<
+    Array<{ _id: string; name: string }>
+  >([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getCategories();
+        if (Array.isArray(data))
+          setAvailableCategories(
+            data.map((c: any) => ({ _id: c._id, name: c.name })),
+          );
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, []);
 
   const handleAddCategory = async () => {
     if (!newCategoryName.trim()) {
@@ -40,21 +56,24 @@ const AddProductCategory = ({
     }
 
     try {
-      // TODO: Implement API call to add new category
-      // const response = await fetch("/api/category", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     name: newCategoryName,
-      //     description: newCategoryDescription,
-      //   }),
-      // });
-      
-      // For now, just close dialog and show success
+      const created = await createCategory({
+        name: newCategoryName,
+        description: newCategoryDescription,
+        imageFile: newCategoryImage || undefined,
+      });
       setNewCategoryName("");
       setNewCategoryDescription("");
+      setNewCategoryImage(null);
       setIsDialogOpen(false);
       toast.success("Category added successfully");
+
+      // Refresh available categories and select the new one
+      const data = await getCategories();
+      if (Array.isArray(data))
+        setAvailableCategories(
+          data.map((c: any) => ({ _id: c._id, name: c.name })),
+        );
+      if (created?._id) onCategoryChange(created._id);
     } catch (error) {
       console.log("Error", error);
       toast.error("Failed to add category");
@@ -70,17 +89,15 @@ const AddProductCategory = ({
             <SelectValue placeholder="Categories" />
           </SelectTrigger>
           <SelectContent>
-            {categories.length > 0 ? (
-              categories.map((cat) => (
-                <SelectItem key={cat} value={cat}>
-                  {cat}
+            {availableCategories.length > 0 ? (
+              availableCategories.map((cat) => (
+                <SelectItem key={cat._id} value={cat._id}>
+                  {cat.name}
                 </SelectItem>
               ))
             ) : (
               <>
-                <SelectItem value="light">Light</SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
-                <SelectItem value="system">System</SelectItem>
+                <SelectItem value="">No categories</SelectItem>
               </>
             )}
           </SelectContent>

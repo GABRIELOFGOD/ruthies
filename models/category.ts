@@ -5,6 +5,8 @@ export interface ICategory extends Document {
   description?: string;
   image?: string | null;
   slug?: string;
+  isDeleted?: boolean;
+  deletedAt?: Date | null;
 }
 
 const CategorySchema: Schema<ICategory> = new Schema(
