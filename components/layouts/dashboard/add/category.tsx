@@ -14,6 +14,11 @@ import { toast } from "sonner";
 import AddCategory from "../add-category";
 import { useCategory } from "@/hooks/use-category";
 
+interface Category {
+  _id: string;
+  name: string;
+}
+
 interface AddProductCategoryProps {
   selectedCategory: string;
   onCategoryChange: (category: string) => void;
@@ -23,7 +28,7 @@ interface AddProductCategoryProps {
 const AddProductCategory = ({
   selectedCategory,
   onCategoryChange,
-  categories = [],
+  // categories = [],
 }: AddProductCategoryProps) => {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryDescription, setNewCategoryDescription] = useState("");
@@ -41,7 +46,7 @@ const AddProductCategory = ({
         const data = await getCategories();
         if (Array.isArray(data))
           setAvailableCategories(
-            data.map((c: any) => ({ _id: c._id, name: c.name })),
+            data.map((c: Category) => ({ _id: c._id, name: c.name })),
           );
       } catch (err) {
         console.error(err);
@@ -71,7 +76,7 @@ const AddProductCategory = ({
       const data = await getCategories();
       if (Array.isArray(data))
         setAvailableCategories(
-          data.map((c: any) => ({ _id: c._id, name: c.name })),
+          data.map((c: Category) => ({ _id: c._id, name: c.name })),
         );
       if (created?._id) onCategoryChange(created._id);
     } catch (error) {
@@ -96,9 +101,9 @@ const AddProductCategory = ({
                 </SelectItem>
               ))
             ) : (
-              <>
-                <SelectItem value="">No categories</SelectItem>
-              </>
+              // <>
+                <SelectItem value="none">No categories</SelectItem>
+              // </>
             )}
           </SelectContent>
         </Select>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ruthie Africa - Styling Services</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#297574",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#141e1e",
+                    },
+                    fontFamily: {
+                        "display": ["Epilogue", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .pattern-overlay {
+            background-image: radial-gradient(#297574 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            opacity: 0.1;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white transition-colors duration-300">
+<!-- Top Navigation -->
+<nav class="sticky top-0 z-50 flex items-center justify-between p-4 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">arrow_back_ios</span>
+<span class="text-sm font-semibold tracking-wider uppercase">Ruthie Africa</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1 bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
+<span class="material-symbols-outlined text-[18px] text-primary">payments</span>
+<span class="text-xs font-bold text-primary">USD</span>
+</div>
+<span class="material-symbols-outlined">menu</span>
+</div>
+</nav>
+<main class="relative min-h-screen">
+<!-- Hero Section -->
+<header class="relative @container px-4 py-6">
+<div class="relative min-h-[480px] rounded-xl overflow-hidden flex flex-col justify-end p-8 bg-cover bg-center" data-alt="Fashion stylist working with vibrant African textiles" style='background-image: linear-gradient(180deg, rgba(20, 30, 30, 0) 0%, rgba(20, 30, 30, 0.9) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmy5hNzCz_nIRJQdplgOoI05dCaq2RSiWIF_mjWDc3_etUpykU9YdX6g-aB1S7a5ZlvjjSnQXXLugodj5Dg0-FO-ulE34dGp3e8qoCbJwvkJMXdhcyq0fziZ49JKnakibS0hJXN50xeKtZLmvUTiVjTZI0E_k9MF1srPxoyMxXh48DAKR9oM-6nGdhvW9MC0NclZrhla5vsA5jtP-JOOZLUj2MIYyiIsolKTO4GWbsoGRvaEOlC1JTihSrEY7x2fY6ejI7TjeRs09j");'>
+<div class="absolute inset-0 pattern-overlay"></div>
+<div class="relative z-10 space-y-2">
+<span class="inline-block px-3 py-1 bg-primary text-white text-[10px] font-bold tracking-[0.2em] uppercase rounded-full">Bespoke Styling</span>
+<h1 class="text-4xl font-black leading-none tracking-tight">Elevate Your<br/><span class="text-primary italic">Aesthetic.</span></h1>
+<p class="text-slate-300 max-w-xs text-sm font-light leading-relaxed pt-2">
+                        Professional styling tailored to your unique personality and high-end lifestyle.
+                    </p>
+</div>
+</div>
+</header>
+<!-- Services Section Header -->
+<section class="px-4 pt-10 pb-4">
+<div class="flex items-end justify-between">
+<div>
+<h2 class="text-2xl font-bold tracking-tight">Curated Services</h2>
+<div class="h-1 w-12 bg-primary mt-2"></div>
+</div>
+<span class="text-xs text-slate-500 font-medium">SCROLL TO EXPLORE</span>
+</div>
+</section>
+<!-- Service Cards -->
+<section class="px-4 space-y-4">
+<!-- Personal Shopping -->
+<div class="flex flex-col gap-5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/20 transition-all duration-700"></div>
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="text-xl font-bold">Personal Shopping</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Transform your wardrobe with curated picks.</p>
+</div>
+<div class="text-right">
+<span class="block text-[10px] uppercase font-bold tracking-widest text-primary">Starting at</span>
+<span class="text-3xl font-black tracking-tighter">$250</span>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span class="font-light">Curated wardrobe updates</span>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span class="font-light">Seasonal trend analysis</span>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span class="font-light">Sourcing rare &amp; unique pieces</span>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-teal-700 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all">
+<span>Book a Consultation</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Closet Audit -->
+<div class="flex flex-col gap-5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 relative overflow-hidden">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="text-xl font-bold">Closet Audit</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Streamline and reimagine what you own.</p>
+</div>
+<div class="text-right">
+<span class="block text-[10px] uppercase font-bold tracking-widest text-primary">Starting at</span>
+<span class="text-3xl font-black tracking-tighter">$400</span>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">inventory_2</span>
+<span class="font-light">Outfit reimagination &amp; lookbook</span>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">cleaning_services</span>
+<span class="font-light">Strategic decluttering session</span>
+</div>
+</div>
+<button class="w-full bg-white dark:bg-white/10 text-slate-900 dark:text-white font-bold py-4 rounded-lg border border-slate-200 dark:border-white/10">
+                    Learn More
+                </button>
+</div>
+<!-- Virtual Styling -->
+<div class="flex flex-col gap-5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 relative overflow-hidden">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="text-xl font-bold">Virtual Styling</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Global style consulting on the go.</p>
+</div>
+<div class="text-right">
+<span class="block text-[10px] uppercase font-bold tracking-widest text-primary">Session</span>
+<span class="text-3xl font-black tracking-tighter">$150</span>
+</div>
+</div>
+<button class="w-full bg-white dark:bg-white/10 text-slate-900 dark:text-white font-bold py-4 rounded-lg border border-slate-200 dark:border-white/10">
+                    Book Digital Session
+                </button>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="mt-12 py-10 bg-primary/5">
+<h2 class="px-4 text-[10px] font-black tracking-[0.3em] uppercase text-primary mb-6">Client Transformations</h2>
+<div class="flex overflow-x-auto pb-8 gap-4 px-4 no-scrollbar">
+<div class="min-w-[300px] flex-shrink-0 bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm">
+<div class="flex gap-1 mb-4">
+<span class="material-symbols-outlined text-yellow-500 text-sm fill-[1]">star</span>
+<span class="material-symbols-outlined text-yellow-500 text-sm fill-[1]">star</span>
+<span class="material-symbols-outlined text-yellow-500 text-sm fill-[1]">star</span>
+<span class="material-symbols-outlined text-yellow-500 text-sm fill-[1]">star</span>
+<span class="material-symbols-outlined text-yellow-500 text-sm fill-[1]">star</span>
+</div>
+<p class="italic font-medium text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                        "Ruthie completely changed how I see myself. The closet audit was a revelation. I didn't need more clothes, I needed more vision."
+                    </p>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden" data-alt="Client portrait">
+<img alt="Client" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfUxBMOSkTv7AVx20vqbejAKXO8G84WKAb6veVmR_8-ZL6S-0X1iR44INSMdf803NxPiBDn4KnwcS6q-uKDNYt1C1Wa-CO_Wan-QfJiH9l3OYdyMSNsj14WwwzDJRVBs-tatEFvj0mTmO57dWHzhLYn1aFuaGI4REZZBSXWm6hxWBr-NQoo3kcdlcNmvpC8oq56RRDvBRZUctxOz44l98NcHxAxIjqiG2lyYJQdEUfLuQdlD9JBU5oiUjVIO5SQ2RyCJjmaElWKdOR"/>
+</div>
+<div>
+<h4 class="text-xs font-bold">Amara Okafor</h4>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest">Fashion Designer</p>
+</div>
+</div>
+</div>
+<div class="min-w-[300px] flex-shrink-0 bg-white dark:bg-background-dark p-6 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm">
+<div class="flex gap-1 mb-4">
+<span class="material-symbols-outlined text-yellow-500 text-sm fill-[1]">star</span>
+<span class="material-symbols-outlined text-yellow-500 text-sm fill-[1]">star</span>
+<span class="material-symbols-outlined text-yellow-500 text-sm fill-[1]">star</span>
+<span class="material-symbols-outlined text-yellow-500 text-sm fill-[1]">star</span>
+<span class="material-symbols-outlined text-yellow-500 text-sm fill-[1]">star</span>
+</div>
+<p class="italic font-medium text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                        "The personal shopping service for my wedding season was flawless. Every look felt bespoke to my identity."
+                    </p>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden" data-alt="Client portrait">
+<img alt="Client" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYNQV85Cthw5qg3BZyyktv9xC3AmCsIikyXt2XJA3Z11elU_YHRAgsexKujqnJnXceBOLfdms2GdjY_I0VFpiUU7ffiWhLX7cgBHvHUJRySO19WW0aXbirGgublFSUWA6TgIrfWDxaqAv96LHIzVUw37HYUEMYNIHdXbrJXzxJp0B-rPwOrH-Qtb7I_q5YCJgH4XBeVuenvFwn7wUVfyfJIjr7SViFrLJmTqxeLIhLBKj0z7NVE3sbb-ABRAOg721d6GVywz-f9WIx"/>
+</div>
+<div>
+<h4 class="text-xs font-bold">David Mensah</h4>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest">Creative Director</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- The Lookbook (Gallery) -->
+<section class="px-4 py-12">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-3xl font-black tracking-tight italic">The Lookbook</h2>
+<button class="text-xs font-bold text-primary border-b border-primary pb-1">VIEW ALL</button>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="space-y-3">
+<div class="rounded-lg overflow-hidden h-64 bg-slate-200" data-alt="Avant-garde African fashion styling">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq1ri4cPVazPCFiL2CdWarSwS5m8yC3zHTZmeNEyjiIDFSZAKbUfPHz_pCXt_l2Pfw47Lf2cXMBukLu8kQM7Q2ZXsm_qp3lTVVHD3evEeS726uuIA9tF1mN-dbFDf6mas9w1kebxcYRrE3ifohSbzzS1YEwrS-a281yQ8N4mVCthpH61LIS4slrwVETUB2u-LHt-ht09m0mlAriGLATzFcdUGhsHNpAHC7aPrepN3zXH3KYPISyAi3DBJwr98O_z6bgzTSW22NnYta"/>
+</div>
+<div class="rounded-lg overflow-hidden h-40 bg-slate-200" data-alt="Vibrant patterns and textures">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1qN-yD_Z2L3UyyZ-o0RpcPB-sGhN4vY8m7MNKDgXWZX_NthWJbCh5Y_B8tF1eHjNQa8gMn4vILB8Jf6o0UYwzTRcB-88xjTBNf6l5etSqd957F49CO5v9lg5ow7LHfGFJRtmRaAo1bcGDTxg7bYMbqxAwdawotPsi5wkb5lDcREGRKmAZJYOgepWVZFML16IwuWVS4QSabKw8-s2nMw77R_lKXus4EvA8S4t4f-rvQNpO-wOVCsffbfcUTu_Yh8-S6LcoHejHqk88"/>
+</div>
+</div>
+<div class="space-y-3 pt-8">
+<div class="rounded-lg overflow-hidden h-40 bg-slate-200" data-alt="Modern African street style">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-alrNKyAR-7BMV0SOD1SfMkZQDnrlkvsxwHWVi7r1pliqAvxTmz6h9OGDNvwcoS80bspMn0YCGsaCKDEf_MTFg3Bdy3q3fqpQZzkisjZZygqpyBt0Pu5x3b-sZsQbOaVAcXtoJxs7pID_eiYirpHYGiQtj6_OpzjTUs4Uo0pu1vYA_qq0p8raV9peoSWqU9SIHpBta8SwXi4FAx0JdRWcErFvMC-NvSBnNigNYJvaD9OdTrvFSl3RAWvt2i9j0T0haylo4hoFgRRl"/>
+</div>
+<div class="rounded-lg overflow-hidden h-64 bg-slate-200" data-alt="Editorial fashion composition">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsFHtaklGokNBIY5EztV5O9gnpiD0ERxZdt8XdFn8E5uu_cVi7cpu0zDvafOs-X9Qh1jw66qeOoGHop9CtUZ97Lspg-ivLSvyygc5eCra8rBAUTebn97xpTu6aM0ZbnaR9hCzTFQ-l4p03VgDoH6Fvv7kiCUzf6d9fz8hkMbXKpZQMeSIntbyaUTcnsKAGUpjl7kgQsdFLmV0ywsIvqpGx-n7OdpgXOcpSukAS4mumrbeCSET_JGb7jBAQPG4z3q2q4os8Ve_azLDc"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer / Sticky CTA Area -->
+<footer class="mt-8 p-10 bg-slate-100 dark:bg-white/5 border-t border-slate-200 dark:border-white/5 text-center">
+<h3 class="text-xl font-bold mb-4">Ready for your transformation?</h3>
+<p class="text-sm text-slate-500 mb-8 max-w-xs mx-auto">Join the waitlist for exclusive 2024 styling slots.</p>
+<button class="px-8 py-4 bg-primary text-white font-bold rounded-full shadow-lg shadow-primary/20 hover:scale-105 transition-transform active:scale-95">
+                Book Initial Consultation
+            </button>
+<div class="mt-12 flex justify-center gap-6">
+<span class="material-symbols-outlined text-slate-400">share</span>
+<span class="material-symbols-outlined text-slate-400">mail</span>
+<span class="material-symbols-outlined text-slate-400">alternate_email</span>
+</div>
+<p class="mt-8 text-[10px] text-slate-400 tracking-[0.2em] uppercase">© 2024 Ruthie Africa Studio</p>
+</footer>
+</main>
+<!-- Floating Action Button (Mobile Context) -->
+<div class="fixed bottom-6 right-6 z-50">
+<button class="w-14 h-14 bg-primary rounded-full flex items-center justify-center text-white shadow-2xl">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+</div>
+</body></html>

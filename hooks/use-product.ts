@@ -56,5 +56,53 @@ export const useProduct = () => {
     }
   };
 
-  return { getProductsData, postProductsData };
-}
+  const updateProduct = async (id: string, updates: any) => {
+    try {
+      const response = await fetch("/api/product", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, ...updates }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update product");
+      }
+
+      const data = await response.json();
+      toast.success("Product updated successfully");
+      return { data, loading: false };
+    } catch (error: unknown) {
+      console.log("Error updating product:", error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+      return { data: null, loading: false };
+    }
+  };
+
+  const deleteProduct = async (id: string) => {
+    try {
+      const response = await fetch("/api/product", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete product");
+      }
+
+      const data = await response.json();
+      toast.success("Product deleted successfully");
+      return { data, loading: false };
+    } catch (error: unknown) {
+      console.log("Error deleting product:", error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+      return { data: null, loading: false };
+    }
+  };
+
+  return { getProductsData, postProductsData, updateProduct, deleteProduct };
+};

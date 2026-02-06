@@ -78,6 +78,10 @@ export async function getProducts(request: NextRequest) {
   const filter: Record<string, unknown> = { isDeleted: { $ne: true } };
 
   if (id) {
+    // Validate id is a proper ObjectId before querying
+    if (!/^[0-9a-fA-F]{24}$/.test(id)) {
+      return null;
+    }
     const product = await Product.findOne({
       _id: id,
       isDeleted: { $ne: true },
@@ -108,6 +112,13 @@ export async function getProducts(request: NextRequest) {
 
   if (q) {
     filter.$text = { $search: q };
+  }
+
+  // Clean up any invalid category references before querying
+  if (filter.category && typeof filter.category === "string") {
+    if (!/^[0-9a-fA-F]{24}$/.test(filter.category)) {
+      delete filter.category;
+    }
   }
 
   const products = await Product.find(filter)

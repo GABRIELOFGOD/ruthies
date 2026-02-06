@@ -16,7 +16,8 @@ import { toast } from "sonner";
 
 const AddProduct = () => {
   const { postProductsData } = useProduct();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [autoConvertPrice, setAutoConvertPrice] = useState(false);
@@ -73,21 +74,30 @@ const AddProduct = () => {
 
   const handleSubmit = async (isDraft: boolean = false) => {
     try {
-      setIsLoading(true);
+      if (isDraft) setIsSavingDraft(true);
+      else setIsPublishing(true);
 
       // Validate required fields
       if (!product.name?.trim()) {
         toast.error("Product name is required");
+        if (isDraft) setIsSavingDraft(false);
+        else setIsPublishing(false);
         return;
       }
 
-      if (!product.category?.trim()) {
-        toast.error("Please select a category");
+      if (
+        !product.category?.trim() ||
+        !/^[0-9a-fA-F]{24}$/.test(String(product.category))
+      ) {
+        toast.error("Please select a valid category");
+        // setIsLoading(false);
         return;
       }
 
       if (images.length === 0) {
         toast.error("Please upload at least one image");
+        if (isDraft) setIsSavingDraft(false);
+        else setIsPublishing(false);
         return;
       }
 
@@ -99,6 +109,7 @@ const AddProduct = () => {
       formData.append("brand", product.brand || "");
       formData.append("gender", product.gender || "unisex");
       formData.append("stock", String(product.stock || 0));
+      // publisheshed should be true for publish, false for draft
       formData.append("publisheshed", String(!isDraft));
 
       // Add prices
@@ -146,216 +157,278 @@ const AddProduct = () => {
       console.error("Error submitting product:", error);
       toast.error("Failed to submit product");
     } finally {
-      setIsLoading(false);
+      setIsPublishing(false);
+      setIsSavingDraft(false);
     }
   };
 
+  // Determine whether publish should be enabled
+  const canPublish = Boolean(
+    product.name?.trim() &&
+    product.price?.NGN &&
+    product.price?.NGN !== "0.00" &&
+    product.category &&
+    images.length > 0,
+  );
+
   return (
-    <div className="p-2 md:p-4 flex flex-col gap-5">
-      <div className="flex gap-2 justify-between">
-        <div className="flex flex-col gap-2">
-          <p className="text-lg font-bold">Add Product</p>
-          <p className="text-xs font-medium italic text-gray-500">
-            Please fill in the details below to add a new product.
+    <div className="space-y-6 p-4 md:p-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Add Product</h1>
+          <p className="text-sm text-gray-600 mt-1">
+            Create and publish a new product
           </p>
         </div>
-        <div className="flex gap-5 my-auto">
+        <div className="flex gap-3">
           <Button
             variant="outline"
-            className="flex"
             onClick={() => handleSubmit(true)}
-            disabled={isLoading}
+            disabled={isSavingDraft}
+            className="gap-2"
           >
-            {isLoading ? <Loader2 className="animate-spin" /> : <PencilIcon />}
-            <span className="ml-2">
-              {isLoading ? "Saving draft..." : "Save Draft"}
-            </span>
+            {isSavingDraft ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <PencilIcon className="w-4 h-4" />
+            )}
+            Save Draft
           </Button>
           <Button
-            className="flex"
             onClick={() => handleSubmit(false)}
-            disabled={isLoading}
+            disabled={isPublishing || !canPublish}
+            className="bg-blue-600 hover:bg-blue-700 gap-2"
           >
-            {isLoading ? <Loader2 className="animate-spin" /> : <CheckIcon />}
-            <span className="ml-2">
-              {isLoading ? "Publishing..." : "Publish Product"}
-            </span>
+            {isPublishing ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <CheckIcon className="w-4 h-4" />
+            )}
+            Publish
           </Button>
         </div>
       </div>
-      <div className="flex gap-5">
-        <div className="flex flex-col gap-5 flex-1 md:flex-3 w-full">
-          <div className="flex w-full p-4 rounded-md bg-gray-50">
-            <div className="flex flex-col gap-3 w-full">
-              <p className="font-bold">General Information</p>
-              <div className="flex flex-col gap-1">
-                <p className="text-xs font-bold">Product Name</p>
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column - Forms */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Basic Information Card */}
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Basic Information
+            </h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Product Name
+                </label>
                 <Input
                   placeholder="Enter product name"
                   value={product.name || ""}
                   onChange={(e) => handleInputChange("name", e.target.value)}
-                  className="w-full text-sm font-medium shadow-none border-0 bg-gray-100 h-10 placeholder:text-gray-400 placeholder:italic"
+                  className="w-full"
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <p className="text-xs font-bold">Product Description</p>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Description
+                </label>
                 <Textarea
                   placeholder="Describe your product in details"
                   value={product.description || ""}
                   onChange={(e) =>
                     handleInputChange("description", e.target.value)
                   }
-                  className="w-full text-sm font-medium shadow-none border-0 bg-gray-100 h-40 placeholder:text-gray-400 placeholder:italic"
+                  className="w-full min-h-[120px]"
                 />
               </div>
 
-              <div className="flex flex-col gap-5 w-full md:flex-row">
-                <div className="flex flex-col w-full gap-1">
-                  <div className="flex flex-col">
-                    <p className="text-xs font-bold">Size</p>
-                    <p className="text-[10px] text-gray-400 font-semibold">
-                      Select all available sizes
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    {sizes.map((size) => (
-                      <div
-                        key={size}
-                        onClick={() => handleSizeToggle(size)}
-                        className={`flex items-center justify-center w-10 h-10 border rounded-sm duration-100 cursor-pointer ${
-                          selectedSizes.includes(size)
-                            ? "bg-blue-500 text-white border-blue-500"
-                            : "bg-gray-200 hover:bg-gray-300"
-                        }`}
-                      >
-                        <span className="text-xs font-bold">{size}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex flex-col w-full gap-1">
-                  <div className="flex flex-col">
-                    <p className="text-xs font-bold">Gender</p>
-                    <p className="text-[10px] text-gray-400 font-semibold">
-                      Pick available gender
-                    </p>
-                  </div>
-                  <RadioGroup
-                    className="flex gap-2 my-auto w-full justify-between"
-                    value={product.gender || "unisex"}
-                    onValueChange={(value) =>
-                      handleInputChange(
-                        "gender",
-                        value as "male" | "female" | "unisex",
-                      )
-                    }
-                  >
-                    <div className="flex my-auto items-center space-x-2">
-                      <RadioGroupItem value="male" id="option-one" />
-                      <Label htmlFor="option-one" className="text-xs font-bold">
-                        Men
-                      </Label>
-                    </div>
-                    <div className="flex my-auto items-center space-x-2">
-                      <RadioGroupItem value="female" id="option-two" />
-                      <Label htmlFor="option-two" className="text-xs font-bold">
-                        Women
-                      </Label>
-                    </div>
-                    <div className="flex my-auto items-center space-x-2">
-                      <RadioGroupItem value="unisex" id="option-three" />
-                      <Label
-                        htmlFor="option-three"
-                        className="text-xs font-bold"
-                      >
-                        Unisex
-                      </Label>
-                    </div>
-                  </RadioGroup>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Brand
+                </label>
+                <Input
+                  placeholder="Enter product brand"
+                  value={product.brand || ""}
+                  onChange={(e) => handleInputChange("brand", e.target.value)}
+                  className="w-full"
+                />
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 w-full p-4 rounded-md bg-gray-50">
-            <div className="col-span-2 w-full flex justify-between">
-              <p className="font-bold">Pricing and Stock</p>
-              <div className="flex flex-col gap-1">
-                <p className="text-[10px] font-bold text-gray-500">
-                  Auto convert prices
-                </p>
+          {/* Variants Card */}
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Variants
+            </h2>
+            <div className="space-y-6">
+              {/* Sizes */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Available Sizes
+                </label>
+                <div className="flex gap-2 flex-wrap">
+                  {sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => handleSizeToggle(size)}
+                      className={`w-10 h-10 rounded border-2 font-semibold text-sm transition ${
+                        selectedSizes.includes(size)
+                          ? "bg-blue-600 text-white border-blue-600"
+                          : "bg-white text-gray-700 border-gray-300 hover:border-gray-400"
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Gender */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Target Gender
+                </label>
+                <RadioGroup
+                  value={product.gender || "unisex"}
+                  onValueChange={(value) =>
+                    handleInputChange(
+                      "gender",
+                      value as "male" | "female" | "unisex",
+                    )
+                  }
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="male" id="gender-male" />
+                      <Label
+                        htmlFor="gender-male"
+                        className="text-sm font-medium"
+                      >
+                        Men
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="female" id="gender-female" />
+                      <Label
+                        htmlFor="gender-female"
+                        className="text-sm font-medium"
+                      >
+                        Women
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="unisex" id="gender-unisex" />
+                      <Label
+                        htmlFor="gender-unisex"
+                        className="text-sm font-medium"
+                      >
+                        Unisex
+                      </Label>
+                    </div>
+                  </div>
+                </RadioGroup>
+              </div>
+            </div>
+          </div>
+
+          {/* Pricing & Stock Card */}
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Pricing & Stock
+              </h2>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-gray-600">
+                  Auto convert
+                </span>
                 <Switch
                   checked={autoConvertPrice}
                   onCheckedChange={setAutoConvertPrice}
                 />
               </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <p className="text-xs font-bold">Price NGN</p>
-              <Input
-                placeholder="Enter product price in Naira"
-                type="number"
-                value={product.price?.NGN || "0.00"}
-                onChange={(e) => handlePriceChange("NGN", e.target.value)}
-                className="w-full text-sm font-medium shadow-none border-0 bg-gray-100 h-10 placeholder:text-gray-400 placeholder:italic"
-              />
+            <div className="grid grid-cols-3 gap-4 mb-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Price (NGN)
+                </label>
+                <Input
+                  placeholder="0.00"
+                  type="number"
+                  value={product.price?.NGN || "0.00"}
+                  onChange={(e) => handlePriceChange("NGN", e.target.value)}
+                  className="w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Price (USD)
+                </label>
+                <Input
+                  placeholder="0.00"
+                  type="number"
+                  value={product.price?.USD || "0.00"}
+                  onChange={(e) => handlePriceChange("USD", e.target.value)}
+                  className="w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Price (GBP)
+                </label>
+                <Input
+                  placeholder="0.00"
+                  type="number"
+                  value={product.price?.GBP || "0.00"}
+                  onChange={(e) => handlePriceChange("GBP", e.target.value)}
+                  className="w-full"
+                />
+              </div>
             </div>
 
-            <div className="flex flex-col gap-1">
-              <p className="text-xs font-bold">Price USD</p>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Stock Quantity
+              </label>
               <Input
-                placeholder="Enter product price in Dollars"
-                type="number"
-                value={product.price?.USD || "0.00"}
-                onChange={(e) => handlePriceChange("USD", e.target.value)}
-                className="w-full text-sm font-medium shadow-none border-0 bg-gray-100 h-10 placeholder:text-gray-400 placeholder:italic"
-              />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <p className="text-xs font-bold">Price GBP</p>
-              <Input
-                placeholder="Enter product price in Pounds"
-                type="number"
-                value={product.price?.GBP || "0.00"}
-                onChange={(e) => handlePriceChange("GBP", e.target.value)}
-                className="w-full text-sm font-medium shadow-none border-0 bg-gray-100 h-10 placeholder:text-gray-400 placeholder:italic"
-              />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <p className="text-xs font-bold">Stock</p>
-              <Input
-                placeholder="Enter quantity available in stock"
+                placeholder="Enter quantity available"
                 type="number"
                 value={product.stock ?? ""}
                 onChange={(e) =>
                   handleInputChange("stock", parseInt(e.target.value) || null)
                 }
-                className="w-full text-sm font-medium shadow-none border-0 bg-gray-100 h-10 placeholder:text-gray-400 placeholder:italic"
+                className="w-full"
               />
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-5 flex-1 md:flex-2 w-full p-2 border rounded-md h-fit">
-          <div className="flex w-full p-4 rounded-md bg-gray-50">
-            <div className="flex flex-col gap-3 w-full">
-              <p className="font-bold">Upload Images</p>
-              <UploadImages images={images} onImagesChange={setImages} />
-            </div>
+
+        {/* Right Column - Sidebar */}
+        <div className="space-y-6">
+          {/* Images Card */}
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Product Images
+            </h2>
+            <UploadImages images={images} onImagesChange={setImages} />
           </div>
-          <div className="flex w-full p-4 rounded-md bg-gray-50">
-            <div className="flex flex-col gap-3 w-full">
-              <p className="font-bold">Category</p>
-              <AddProductCategory
-                selectedCategory={product.category || ""}
-                onCategoryChange={(category) =>
-                  handleInputChange("category", category)
-                }
-              />
-            </div>
+
+          {/* Category Card */}
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Category
+            </h2>
+            <AddProductCategory
+              selectedCategory={product.category || ""}
+              onCategoryChange={(category) =>
+                handleInputChange("category", category)
+              }
+            />
           </div>
         </div>
       </div>
