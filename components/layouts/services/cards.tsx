@@ -62,7 +62,8 @@ const ServicesCards = () => {
       </div>
 
       {/* Service Cards */}
-      {services.map((service) => (
+      <div className="w-full flex flex-col gap-5 md:flex-row justify-between">
+        {services.map((service) => (
         <div
           key={service.id}
           className={`flex flex-col gap-5 rounded-2xl border p-6 md:p-8 relative overflow-hidden group transition-all ${
@@ -104,7 +105,7 @@ const ServicesCards = () => {
                 <div key={idx} className="flex items-start gap-3">
                   <CheckCircle2
                     size={20}
-                    className="text-emerald-600 flex-shrink-0 mt-0.5"
+                    className="text-emerald-600 shrink-0 mt-0.5"
                   />
                   <span className="text-sm md:text-base text-gray-300 font-light">
                     {feature}
@@ -129,6 +130,7 @@ const ServicesCards = () => {
           </div>
         </div>
       ))}
+      </div>
     </section>
   );
 };
